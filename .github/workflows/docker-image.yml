@@ -22,14 +22,16 @@ jobs:
 
     - name: Build and push Docker image
       run: |
-        PLATFORMS=linux/arm64,linux/amd64
-        DOCKER_IMAGE=arcw/sgcc_electricity
-        docker buildx build --platform linux/amd64,linux/arm64 -t arcw/sgcc_electricity --file Dockerfile-for-github-action .
+        docker build -t sgcc_electricity --file Dockerfile-for-github-action .
 
-        
+    
+    - name: Save Docker image as tar
+      run: |
+        docker save -o sgcc_electricity.tar sgcc_electricity
+
     - name: Upload Docker image artifact
       uses: actions/upload-artifact@v3
       with:
-          name: arcw/sgcc_electricity
-          path: arcw/sgcc_electricity.tar
+          name: sgcc_electricity
+          path: sgcc_electricity.tar
 
